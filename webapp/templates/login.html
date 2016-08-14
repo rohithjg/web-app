@@ -1,24 +1,17 @@
 <html>
     <head>
-       <title> Login Page </title>
+       <title> Login </title>
     </head>
     <body>
-        <h1> Login </h1>
-        <form name = "login">
-            Username <input type = 'text' name ='userid' />
-            Password <input type = 'text' name ='passwd' />
-            <input type = "button" onclick = "check(this.form)" value="Sign In" />
-            <input type = "reset" value = "Cancel" />
-        </form>
-         <script language="javascript">
-            function check(form)
-                if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd") {
-                    window.open('target.html')/*opens the target page while Id & password matches*/
-                }
-                else {
-                    alert("Error Password or Username")/*displays error message*/
-                }
-            }
-        </script>
+        <h1> Welcome to Python Web Application Development </h1>
+        <form name = "login", action ="/login" method = "POST">
+
+            Username <input type = 'text' name ='username' />
+            Password <input type = 'text' name ='password' />
+            <input type = "submit"  value="Log In" />
+            {% module xsrf_form_html() %}
+
+    </form>
     </body>
 </html>
+
