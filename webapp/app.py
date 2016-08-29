@@ -11,7 +11,7 @@ import os.path
 
 # MySQL Connection to the Database
 
-cnx = mysql.connector.connect(user='root', password='*******',
+cnx = mysql.connector.connect(user='root', password='maga123',
                               host='127.0.0.1',
                               database='pilot')
 cursor = cnx.cursor(buffered=True)
@@ -24,7 +24,6 @@ class BaseHandler(tornado.web.RequestHandler):
 class MainHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        self.write("WELCOME TO MY FIRST TORNADO APPLICATION")
         self.render("index.html")
 
 class LoginHandler(BaseHandler):
@@ -40,10 +39,10 @@ class LoginHandler(BaseHandler):
         get_password = tornado.escape.xhtml_escape(self.get_argument("password"))
 
         if "demo" == get_username and "demo" == get_password:
-        #if "pilot_authenticate.username" == get_username and "pilot_authenticate.password" == get_password:
             self.set_secure_cookie("user", self.get_argument("username"))
             self.set_secure_cookie("incorrect", "0")
             self.redirect(self.reverse_url("main"))
+            print self.reverse_url("main")
         else:
             self.write("""<center>
                 Incorrect Login, Please Try Again <br />
@@ -55,6 +54,8 @@ class LogoutHandler(BaseHandler):
     def get(self):
         self.clear_cookie("user")
         self.redirect(self.get_argument("next", self.reverse_url("main")))
+        print self.reverse_url("main")
+
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -64,6 +65,7 @@ class Application(tornado.web.Application):
         tornado.web.url(r'/login',LoginHandler, name="login"),
         tornado.web.url(r'/logout',LogoutHandler, name="logout"),
         ], **settings)
+
 
 # Path for static files and templates
 # Instructs tornado from where to fetch information

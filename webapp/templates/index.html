@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html> 
+<head>
+ <title>Welcome Back!</title> 
+</head>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+<body> 
+<h1> Hi {{ current_user }}</h1> 
+<!--<form action="http://foo.com" method="post"> -->
+<form id="myform" action = "someurl"> 
+    <tr> 
+        <td> FirstName : </td> 
+        <td> 
+        <input type="text" name="firstname">
+        </td> 
+    </tr> 
+    <tr> 
+        <td> LastName : </td> 
+        <td> 
+        <input type="text" name="lastname"> 
+        </td> 
+    </tr>
+    <tr> 
+        <td> CompanyName : </td> 
+        <td> 
+        <input type="text" name="companyname"> 
+        </td> 
+    </tr> 
+    <tr> 
+        <td> Notes : </td> 
+        <td> 
+        <input type="text" name="notes"> 
+        </td> 
+    </tr>
+</form> 
+<script src="{{ static_url('formprocess.js') }}" type="application/javascript"></script>
+<button onclick="output()">Submit</button>
+<button onclick="cancel()">Cancel</button> 
+</body>
+ <a href="/logout">logout</a>
+ </html>
