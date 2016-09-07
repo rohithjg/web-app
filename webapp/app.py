@@ -56,6 +56,10 @@ class LogoutHandler(BaseHandler):
         self.redirect(self.get_argument("next", self.reverse_url("main")))
         print self.reverse_url("main")
 
+class ContactHandler(BaseHandler):
+    def post(self):
+        self.write("Hello")
+        return
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -64,6 +68,7 @@ class Application(tornado.web.Application):
         tornado.web.url(r"/", MainHandler, name="main"),
         tornado.web.url(r'/login',LoginHandler, name="login"),
         tornado.web.url(r'/logout',LogoutHandler, name="logout"),
+        tornado.web.url(r'/contact',ContactHandler, name="contact")
         ], **settings)
 
 

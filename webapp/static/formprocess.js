@@ -1,29 +1,36 @@
-/*function output() {
-    alert('Get it sooner, read well')
-    var x;
-    x = document.getElementById("myform");
-    a = x.elements["firstname"].value;
-    b = x.elements["lastname"].value;
-    c = x.elements["companyname"].value;
-    d = x.elements["notes"].value;
-    document.write("Firstname: ",a);
-    document.write(b);
-    document.write(c);
-    document.write(d);
-}
-function cancel(){
-    alert('Cancelled')
-}*/
+$('form.ajax').on('submit',function() {
+    // To reference the current attribute
+    var that = $(this),
+        url = that.attr('action'),
+        type = that.attr('method'),
+        // To hold javascript object
+        data = {};
 
-function output() {
-    var get_field = document.getElementById("myform");
-    var data = {Firstname:get_field.elements["firstname"].value, Lastname:get_field.elements["lastname"].value,Companyname:get_field.elements["companyname"].value,Notes:get_field.elements["notes"].value};
-    document.write(data.Firstname,data.Lastname,data.Companyname,data.Notes);
-    console.log(data);
-}
-function cancel(){
-    alert('Cancelled')
-}
+    //Choosing selector name to find anything with an attribute name
+    //Using each method to loop through all elements in the form
+    that.find('[name]').each(function(index, value){
+        // this References each of the input
+        var that = $(this),
+            name = that.attr('name'),
+            value = that.val();
+        // name refers to name of input field and value to its corresponding value
+        data[name] = value;
+     });
+        console.log(data);
 
-
+    $.ajax({
+       url: '/contact',
+       //Type of request
+       type:type,
+       // Refers to all the information to be sent
+       data:data,
+       success: function(response){
+            console.log(response);
+       },
+       error: function(response){
+            alert('try more');
+       }
+     });
+    return false;
+});
 
