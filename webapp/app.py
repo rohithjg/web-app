@@ -1,21 +1,16 @@
 import tornado.ioloop
 import tornado.httpserver
 import tornado.web
-import mysql.connector
 import tornado.options
 from tornado.options import *
+import dbconnect
 define("port", default=8889, help="run on the given port", type=int)
 
 # Utility Libraries
 import os.path
 
-# MySQL Connection to the Database
-
-cnx = mysql.connector.connect(user='root', password='maga123',
-                              host='127.0.0.1',
-                              database='pilot')
-cursor = cnx.cursor(buffered=True)
-
+post = dbconnect.db.get("select username from authenticate where password='1234'")
+print post
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -82,8 +77,6 @@ settings = dict(
       debug = True,
       xsrf_cookies = True,
 )
-
-cnx.close()
 
 # Start server from a dedicated port
 if __name__ == "__main__":
