@@ -3,18 +3,24 @@ import tornado.httpserver
 import tornado.web
 import tornado.options
 from tornado.options import *
-import dbconnect
+from model.contact import engine
+from model.contact import users
+
 define("port", default=8889, help="run on the given port", type=int)
 
 # Utility Libraries
 import os.path
 
-post = dbconnect.db.get("select username from authenticate where password='1234'")
-print post
+
+#lazy initialization
+connection=engine.connect()
+result = connection.execute(users.select())
+result.close()
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         return self.get_secure_cookie("user")
+
 
 class MainHandler(BaseHandler):
     @tornado.web.authenticated
