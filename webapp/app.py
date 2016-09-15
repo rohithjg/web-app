@@ -6,21 +6,24 @@ from tornado.options import *
 from model.contact import engine
 from model.contact import users
 
-define("port", default=8889, help="run on the given port", type=int)
-
 # Utility Libraries
 import os.path
 
+define("port", default=8889, help="run on the given port", type=int)
 
-#lazy initialization
+
+#Test Database Insert
+ins = users.insert().values(id =1, firstname='ro', lastname='j', companyname='silicus', date='2016-09-15', notes='test')
+
+
+# database connection using lazy initialization
 connection=engine.connect()
-result = connection.execute(users.select())
+result = connection.execute(ins)
 result.close()
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         return self.get_secure_cookie("user")
-
 
 class MainHandler(BaseHandler):
     @tornado.web.authenticated
@@ -73,8 +76,7 @@ class Application(tornado.web.Application):
         ], **settings)
 
 
-# Path for static files and templates
-# Instructs tornado from where to fetch information
+# Path for static files and templates, Instructs tornado from where to fetch information
 settings = dict(
       cookie_secret = "srPsH0quSiq4VWfVZ/5UZTgXwKCCUUq4qkxVcRWpeQM=",
       login_url = "/login",
