@@ -11,15 +11,14 @@ import os.path
 
 define("port", default=8889, help="run on the given port", type=int)
 
-
 #Test Database Insert
-ins = users.insert().values(id =1, firstname='ro', lastname='j', companyname='silicus', date='2016-09-15', notes='test')
-
+# ins = users.insert().values(id ='1', firstname='hi', lastname='j', companyname='silicus', date='2016-09-15', notes='test')
 
 # database connection using lazy initialization
-connection=engine.connect()
-result = connection.execute(ins)
-result.close()
+# connection=engine.connect()
+# result = connection.execute(ins)
+# result.close()
+
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -61,9 +60,25 @@ class LogoutHandler(BaseHandler):
         print self.reverse_url("main")
 
 class ContactHandler(BaseHandler):
+    @tornado.gen.coroutine
     def post(self):
-        self.write("Hello")
+        get_id = tornado.escape.xhtml_escape(self.get_argument("id"))
+        get_firstname = tornado.escape.xhtml_escape(self.get_argument("firstname"))
+        get_lastname = tornado.escape.xhtml_escape(self.get_argument("lastname"))
+        get_companyname = tornado.escape.xhtml_escape(self.get_argument("companyname"))
+        get_date = tornado.escape.xhtml_escape(self.get_argument("date"))
+        get_notes = tornado.escape.xhtml_escape(self.get_argument("notes"))
+        # database connection using lazy initialization
+        connection = engine.connect()
+        #data write query
+        ins = users.insert().values(id=get_id, firstname=get_firstname, lastname=get_lastname, companyname=get_companyname, date=get_date,
+                                    notes=get_notes)
+        # query execution
+        result = connection.execute(ins)
+        # database connection close
+        result.close()
         return
+
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -85,6 +100,7 @@ settings = dict(
       debug = True,
       xsrf_cookies = True,
 )
+
 
 # Start server from a dedicated port
 if __name__ == "__main__":
