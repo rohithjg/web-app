@@ -35,6 +35,7 @@ class LoginHandler(BaseHandler):
         incorrect = self.get_secure_cookie("incorrect")
         self.render("login.html")
 
+
     @tornado.gen.coroutine
     def post(self):
         incorrect = self.get_secure_cookie("incorrect")
@@ -79,6 +80,11 @@ class ContactHandler(BaseHandler):
         result.close()
         return
 
+class RegistrationHandler(BaseHandler):
+    @tornado.gen.coroutine
+    def get(self):
+        self.render("registration.html")
+
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -87,7 +93,8 @@ class Application(tornado.web.Application):
         tornado.web.url(r"/", MainHandler, name="main"),
         tornado.web.url(r'/login',LoginHandler, name="login"),
         tornado.web.url(r'/logout',LogoutHandler, name="logout"),
-        tornado.web.url(r'/contact',ContactHandler, name="contact")
+        tornado.web.url(r'/contact',ContactHandler, name="contact"),
+        tornado.web.url(r'/register', RegistrationHandler, name="register")
         ], **settings)
 
 

@@ -2,14 +2,21 @@
     <head>
        <title> Login </title>
     </head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
     <body>
         <h1> Welcome to Python Web Application Development </h1>
-        <form name = "login", action ="/login" method = "POST">
+        <form name = "login" action ="/login" method = "POST">
             Username <input type = 'text' name ='username' />
             Password <input type = 'text' name ='password' />
             <input type = "submit"  value="Log In" />
+            <input type = "button"  value="Register" onclick="myfunction();" />
             {% module xsrf_form_html() %}
     </form>
+    <script>
+    function myfunction(){
+    window.location.replace("/register");
+    };
+    </script>
     </body>
 </html>
 
