@@ -5,21 +5,24 @@
     <title>Registration</title>
 </head>
 <body>
-<form action="/register" id="doname" method ="GET">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="static/formprocess.js"></script>
+<form action="/register" class="ajax" method ="POST">
     First Name:
     <input type="text" name="firstname"><br>
     Last Name:
     <input type="text" name="lastname"><br>
     Email:
     <input type="text" name="email"><br>
-    <input type="radio" name="sex" value="male">Male
-    <input type="radio" name="sex" value="female">Female<br>
+    Sex:
+    <input type="text" name="sex"><br>
     Username:
     <input type="text" name="username"><br>
     Password:
-    <input type="password" name="pwd"><br>
+    <input type="password" name="password"><br>
     <input type="submit" value="Submit"><br>
     <input type="button" value="Cancel"><br>
+    {% module xsrf_form_html() %}
 </form>
 </body>
 </html>

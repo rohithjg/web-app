@@ -3,26 +3,15 @@
     <head>
         <title>Welcome Back!</title> 
     </head>
-     <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
     <body> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="static/formprocess.js"></script>
     <h1> Hi {{ current_user }}</h1> 
     <form action="/contact" method="post" class="ajax">
     <tr> 
         <td> ID : </td> 
         <td> 
         <input type="text" name="id">
-        </td> 
-    </tr>
-    <tr> 
-        <td> FirstName : </td> 
-        <td> 
-        <input type="text" name="firstname">
-        </td> 
-    </tr> 
-    <tr> 
-        <td> LastName : </td> 
-        <td> 
-        <input type="text" name="lastname"> 
         </td> 
     </tr>
     <tr> 
@@ -46,8 +35,6 @@
     <input type="submit" value="Send">
     {% module xsrf_form_html() %}
     </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="static/formprocess.js"></script>
     <button onclick="cancel()">Cancel</button> 
     </body>
      <a href="/logout">logout</a>

@@ -15,34 +15,22 @@ $('form.ajax').on('submit',function() {
             value = that.val();
         // name refers to name of input field and value to its corresponding value
         data[name] = value;
-    });
+     });
         console.log(data);
 
     $.ajax({
-        url: '/contact',
-        //Type of request
-        type:type,
-        // Refers to all the information to be sent
-        data:data,
-        success: function(response){
-             console.log(response);
-        },
-        error: function(response){
-             alert('try more');
-        }
-    });
-
-    $.ajax({
-        url: '/register',
-        //Type of request
-        type:type,
-        // Refers to all the information to be sent
-        data:data,
-        success: function(response){
+       url: '/register',
+       //Type of request
+       type:type,
+       // Refers to all the information to be sent
+       data:data,
+       success: function(response){
             console.log(response);
-        },
-        error: function(response){
+       },
+       error: function(response){
             alert('try more');
-        }
-    });
+       }
+     });
+    return false;
 });
+
