@@ -4,8 +4,7 @@ import tornado.web
 import tornado.options
 from tornado.options import *
 from model.contact import *
-from model.register import stakeholders
-
+from model.register import stakeholders, Register
 
 # Utility Libraries
 import os.path
@@ -19,7 +18,6 @@ define("port", default=8889, help="run on the given port", type=int)
 # connection=engine.connect()
 # result = connection.execute(ins)
 # result.close()
-
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -41,21 +39,17 @@ class LoginHandler(BaseHandler):
         incorrect = self.get_secure_cookie("incorrect")
         get_username = tornado.escape.xhtml_escape(self.get_argument("username"))
         get_password = tornado.escape.xhtml_escape(self.get_argument("password"))
-        print get_username
-        print get_password
-        print stakeholders.c.username
-        #if stakeholders.c.username == get_username and stakeholders.c.password == get_password:
-        #    print 'hello'
-        if "demo" == get_username and "demo" == get_password:
-            self.set_secure_cookie("user", self.get_argument("username"))
-            self.set_secure_cookie("incorrect", "0")
-            self.redirect(self.reverse_url("main"))
+        for instance in session.query(Register):
+            if instance.username == get_username and instance.password == get_password:
+                self.set_secure_cookie("user", self.get_argument("username"))
+                self.set_secure_cookie("incorrect", "0")
+                self.redirect(self.reverse_url("main"))
         else:
             self.write("""<center>
-                Incorrect Login, Please Try Again <br />
-                <a href="/">Go Home</a>
-              </center>""")
-            return
+            Incorrect Login, Please Try Again <br />
+            <a href="/">Go Home</a>
+            </center>""")
+        return
 
 class LogoutHandler(BaseHandler):
     def get(self):
@@ -118,8 +112,6 @@ class Application(tornado.web.Application):
         ], **settings)
 
 
-
-
 # Path for static files and templates, Instructs tornado from where to fetch information
 settings = dict(
       cookie_secret = "srPsH0quSiq4VWfVZ/5UZTgXwKCCUUq4qkxVcRWpeQM=",
@@ -129,7 +121,6 @@ settings = dict(
       debug = True,
       xsrf_cookies = True,
 )
-
 
 # Start server from a dedicated port
 if __name__ == "__main__":

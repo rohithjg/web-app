@@ -1,8 +1,6 @@
 from sqlalchemy.types import Integer, String, Date
 from sqlalchemy.schema import Column
 from model.engine import *
-from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base()
 
 
 class Contact(Base):
@@ -14,6 +12,5 @@ class Contact(Base):
     notes = Column(String(80))
 
 users = Contact.__table__
-metadata = Base.metadata
-metadata.create_all(engine)
+
 
